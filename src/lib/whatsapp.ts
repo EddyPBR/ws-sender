@@ -3,12 +3,19 @@ import path from "path";
 import qrcode from "qrcode-terminal";
 import { Client } from "whatsapp-web.js";
 
+interface ISessionWhatsapp {
+  WABrowserId: string;
+  WASecretBundle: string;
+  WAToken1: string;
+  WAToken2: string;
+}
+
 const SESSION_FILE_PATH = path.resolve(__dirname, "..", "tokens", "whatsapp-session.json");
 
-const tokenExists = fs.existsSync(SESSION_FILE_PATH);
+const token: ISessionWhatsapp | undefined = fs.existsSync(SESSION_FILE_PATH) ? require(SESSION_FILE_PATH) : undefined;
 
 const client = new Client({
-  session: tokenExists ? require(SESSION_FILE_PATH) : undefined,
+  session: token
 });
 
 client.on('qr', qr => {
