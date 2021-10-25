@@ -4,7 +4,7 @@
 tsconfig.json
 package.json
 .eslintrc.json
-.prettierrc.json5
+.prettierrc.json
 dockerfile
 *.yml
 *.lock
