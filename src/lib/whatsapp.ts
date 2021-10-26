@@ -22,8 +22,6 @@ const client = new Client({
 	takeoverTimeoutMs: 10000,
 });
 
-console.log(client);
-
 client.on("qr", qr => {
 	qrcode.generate(qr, {
 		small: true
