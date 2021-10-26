@@ -11,6 +11,12 @@ export async function sendMessage({ phone, message }: ISendMessageProps) {
   try {
     await client.sendMessage(uri, message);
   } catch (err) {
-    throw new Error(err.message || "Failed to send message");
+    try {
+      await client.destroy();
+      await client.initialize();
+      throw new Error("Session has closed, please scan qr code again");
+    } catch {
+      throw new Error(err.message || "Failed to send message");
+    }
   }
 }

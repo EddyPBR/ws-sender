@@ -15,8 +15,14 @@ const SESSION_FILE_PATH = path.resolve(__dirname, "..", "tokens", "whatsapp-sess
 const token: ISessionWhatsapp | undefined = fs.existsSync(SESSION_FILE_PATH) ? require(SESSION_FILE_PATH) : undefined;
 
 const client = new Client({
-  session: token
+  session: token,
+  authTimeoutMs: 10000,
+  restartOnAuthFail: true,
+  takeoverOnConflict: true,
+  takeoverTimeoutMs: 10000,
 });
+
+console.log(client);
 
 client.on('qr', qr => {
   qrcode.generate(qr, {
@@ -27,9 +33,11 @@ client.on('qr', qr => {
 client.on("authenticated", (session) => {
   console.log("Authenticated!");
 
-  fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
-    console.log(err ? "Failed to create json" : "create token json file");
-  })
+  if (!fs.existsSync(SESSION_FILE_PATH)) {
+    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
+      console.log(err ? "Failed to create json" : "create token json file");
+    });
+  }
 });
 
 client.on("auth_failure", () => {

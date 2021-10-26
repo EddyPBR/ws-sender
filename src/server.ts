@@ -8,5 +8,8 @@ app.listen(process.env.PORT, () => {
   console.log("Server listen on Port:", process.env.PORT);
   client.initialize()
     .then(() => console.log("Whatsapp client is on!"))
-    .catch(() => console.log("Failed to init whatsapp client"))
+    .catch((err) => {
+      console.log(err);
+      console.log("Failed to init whatsapp client") 
+    })
 });
