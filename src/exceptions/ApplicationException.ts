@@ -1,6 +1,6 @@
 export class ApplicationException {
-  constructor(
+	constructor(
     public readonly message: string,
     public readonly statusCode: number
-  ) {}
+	) {}
 }

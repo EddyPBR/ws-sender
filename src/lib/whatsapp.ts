@@ -15,41 +15,41 @@ const SESSION_FILE_PATH = path.resolve(__dirname, "..", "tokens", "whatsapp-sess
 const token: ISessionWhatsapp | undefined = fs.existsSync(SESSION_FILE_PATH) ? require(SESSION_FILE_PATH) : undefined;
 
 const client = new Client({
-  session: token,
-  authTimeoutMs: 10000,
-  restartOnAuthFail: true,
-  takeoverOnConflict: true,
-  takeoverTimeoutMs: 10000,
+	session: token,
+	authTimeoutMs: 10000,
+	restartOnAuthFail: true,
+	takeoverOnConflict: true,
+	takeoverTimeoutMs: 10000,
 });
 
 console.log(client);
 
-client.on('qr', qr => {
-  qrcode.generate(qr, {
-    small: true
-  });
+client.on("qr", qr => {
+	qrcode.generate(qr, {
+		small: true
+	});
 });
 
 client.on("authenticated", (session) => {
-  console.log("Authenticated!");
+	console.log("Authenticated!");
 
-  if (!fs.existsSync(SESSION_FILE_PATH)) {
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
-      console.log(err ? "Failed to create json" : "create token json file");
-    });
-  }
+	if (!fs.existsSync(SESSION_FILE_PATH)) {
+		fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
+			console.log(err ? "Failed to create json" : "create token json file");
+		});
+	}
 });
 
 client.on("auth_failure", () => {
-  console.log("Failed on authenticate!");
+	console.log("Failed on authenticate!");
 
-  fs.rm(SESSION_FILE_PATH, (err) => {
-    console.log(err ? "Error on delete token" : "removed token");
-  });
+	fs.rm(SESSION_FILE_PATH, (err) => {
+		console.log(err ? "Error on delete token" : "removed token");
+	});
 });
 
-client.on('ready', () => {
-  console.log('Client is ready!');
+client.on("ready", () => {
+	console.log("Client is ready!");
 });
 
 export { client };

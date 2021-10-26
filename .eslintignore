@@ -9,3 +9,4 @@ dockerfile
 *.yml
 *.lock
 *.config
+whatsapp-session.json
