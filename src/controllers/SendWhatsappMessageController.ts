@@ -10,12 +10,6 @@ class SendWhatsappMessageController {
 	async handle(request: Request, response: Response) {
 		const { phone, message }: IHandleRequestBody = request.body;
 
-		if(!phone || !message || message === "") {
-			return response.status(400).json({
-				message: "Error missing request body params"
-			});
-		}
-
 		try {
 			await sendMessage({
 				phone,
