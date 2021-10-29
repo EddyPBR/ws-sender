@@ -7,17 +7,17 @@ import { CreateContactController } from "@src/controllers/CreateContactControlle
 const routes = Router();
 
 routes.post("/send-message", celebrate({
-  body: {
-    phone: Joi.number().required(),
-    message: Joi.string().min(1).max(65500).required()
-  }
+	body: {
+		phone: Joi.string().required().regex(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/),
+		message: Joi.string().min(1).max(65500).required()
+	}
 }), new SendWhatsappMessageController().handle);
 
 routes.post("/contact", celebrate({
-  body: {
-    name: Joi.string().min(1).max(190).required(),
-    phone: Joi.number().required(),
-  }
+	body: {
+		name: Joi.string().min(1).max(190).required(),
+		phone: Joi.string().required().regex(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/),
+	}
 }), new CreateContactController().handle);
 
 export { routes };

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { sendMessage } from "@src/services/whatsapp/sendMessage";
 
 interface IHandleRequestBody {
-  phone: number;
+  phone: string;
   message: string;
 }
 
@@ -10,9 +10,11 @@ class SendWhatsappMessageController {
 	async handle(request: Request, response: Response) {
 		const { phone, message }: IHandleRequestBody = request.body;
 
+		const formatedPhone = Number(phone.replace(/[(-)- ]/g, ""));
+
 		try {
 			await sendMessage({
-				phone,
+				phone: formatedPhone,
 				message
 			});
 
