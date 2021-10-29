@@ -1,4 +1,5 @@
 import { client } from "@src/lib/whatsapp";
+import { ApplicationException } from "@src/exceptions/ApplicationException";
 
 interface ISendMessageProps {
   phone: number;
@@ -11,12 +12,10 @@ export async function sendMessage({ phone, message }: ISendMessageProps) {
 	try {
 		await client.sendMessage(uri, message);
 	} catch (err) {
-		try {
-			await client.destroy();
-			await client.initialize();
-			throw new Error("Session has closed, please scan qr code again");
-		} catch {
-			throw new Error(err.message || "Failed to send message");
+		if(err?.message.includes("(reading 'WidFactory')")) {
+			throw new ApplicationException("Failed to send message, no connection with whatsapp-web", 500);
 		}
+
+		throw new ApplicationException("Failed to send message", 400);
 	}
 }
