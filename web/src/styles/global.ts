@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -40,4 +40,26 @@ export const GlobalStyle = createGlobalStyle`
       font-size: 58.5939%;
     }
   }
+`;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 90vw;
+  max-width: 117rem;
+  margin: 0 auto;
+`;
+
+export const QRCodeBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: ${props => props.theme.colors.white};
+  padding: 3.2rem;
+  border-radius: 0.8rem;
 `;
