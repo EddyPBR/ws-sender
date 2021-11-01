@@ -3,6 +3,7 @@ import { celebrate, Joi } from "celebrate";
 
 import { SendWhatsappMessageController } from "@src/controllers/SendWhatsappMessageController";
 import { CreateContactController } from "@src/controllers/CreateContactController";
+import { CreateQRCodeController } from "@src/controllers/CreateQRCodeController";
 
 const routes = Router();
 
@@ -19,5 +20,7 @@ routes.post("/contact", celebrate({
 		phone: Joi.string().required().regex(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/),
 	}
 }), new CreateContactController().handle);
+
+routes.get("/qrcode", new CreateQRCodeController().handle);
 
 export { routes };

@@ -10,6 +10,8 @@ interface ISessionWhatsapp {
   WAToken2: string;
 }
 
+let QRCode: string | undefined;
+
 const SESSION_FILE_PATH = path.resolve(__dirname, "..", "tokens", "whatsapp-session.json");
 
 const token: ISessionWhatsapp | undefined = fs.existsSync(SESSION_FILE_PATH) ? require(SESSION_FILE_PATH) : undefined;
@@ -23,14 +25,11 @@ const client = new Client({
 });
 
 client.on("qr", qr => {
-	qrcode.generate(qr, {
-		small: true
-	});
+	QRCode = qr;
 });
 
 client.on("authenticated", (session) => {
-	console.log("Authenticated!");
-
+	console.log(session)
 	if (!fs.existsSync(SESSION_FILE_PATH)) {
 		fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
 			console.log(err ? "Failed to create json" : "create token json file");
@@ -50,4 +49,8 @@ client.on("ready", () => {
 	console.log("Client is ready!");
 });
 
-export { client };
+function getQRCode() {
+	return QRCode;
+}
+
+export { client, getQRCode };
