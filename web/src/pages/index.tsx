@@ -2,6 +2,8 @@ import type { NextPage } from "next";
 import QRCode from "react-qr-code";
 import { useState, useEffect } from "react";
 
+import { Load } from "../components/Load";
+
 import { Container, QRCodeBox } from "../styles/global";
 
 import { api } from "../services/api";
@@ -25,11 +27,13 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      { QRCodeSession && 
+      {QRCodeSession ? (
         <QRCodeBox>
-          <QRCode value={QRCodeSession} /> 
+          <QRCode value={QRCodeSession} />
         </QRCodeBox>
-      }
+      ) : (
+        <Load size={32} />
+      )}
     </Container>
   )
 }
