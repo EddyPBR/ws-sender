@@ -1,58 +1,52 @@
-import fs from "fs";
-import path from "path";
-import qrcode from "qrcode-terminal";
 import { io } from "../app";
-import { Client } from "whatsapp-web.js";
+import { Client, ClientSession } from "whatsapp-web.js";
 
-interface ISessionWhatsapp {
-	WABrowserId: string;
-	WASecretBundle: string;
-	WAToken1: string;
-	WAToken2: string;
-}
+class WhatsAppClient {
+	protected qrCode: string | undefined;
+	protected session: ClientSession | undefined;
 
-let QRCode: string | undefined;
-
-const SESSION_FILE_PATH = path.resolve(__dirname, "..", "tokens", "whatsapp-session.json");
-
-const token: ISessionWhatsapp | undefined = fs.existsSync(SESSION_FILE_PATH) ? require(SESSION_FILE_PATH) : undefined;
-
-const client = new Client({
-	session: token,
-	authTimeoutMs: 10000,
-	restartOnAuthFail: true,
-	takeoverOnConflict: true,
-	takeoverTimeoutMs: 10000,
-});
-
-client.on("qr", qr => {
-	QRCode = qr;
-});
-
-client.on("authenticated", (session) => {
-	io.emit("new_connection", session);
-
-	if (!fs.existsSync(SESSION_FILE_PATH)) {
-		fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
-			console.log(err ? "Failed to create json" : "create token json file");
+	create(session?: ClientSession) {
+		const client = new Client({
+			session: this.getSession(),
+			authTimeoutMs: 10000,
+			restartOnAuthFail: true,
+			takeoverOnConflict: true,
+			takeoverTimeoutMs: 10000,
 		});
+
+		client.on("qr", qr => {
+			this.setQRCode(qr);
+		});
+
+		client.on("authenticated", (session) => {
+			this.setSession(session);
+			io.emit("new_connection", session);
+		});
+
+		client.on("ready", () => {
+			console.log("Client is ready!");
+		});
+
+		return client;
 	}
-});
 
-client.on("auth_failure", () => {
-	console.log("Failed on authenticate!");
+	getSession() {
+		return this.session;
+	}
 
-	fs.rm(SESSION_FILE_PATH, (err) => {
-		console.log(err ? "Error on delete token" : "removed token");
-	});
-});
+	setSession(session: ClientSession) {
+		this.session = session;
+	}
 
-client.on("ready", () => {
-	console.log("Client is ready!");
-});
+	getQRCode() {
+		return this.qrCode;
+	}
 
-function getQRCode() {
-	return QRCode;
+	setQRCode(qrCode: string) {
+		this.qrCode = qrCode;
+	}
 }
 
-export { client, getQRCode };
+const whatsapp = new WhatsAppClient();
+
+export { whatsapp, WhatsAppClient };
