@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { useRouter } from "next/router";
 
-import { Load } from "../components/Load";
+import { Load } from "@components/Load";
 
-import { Container, QRCodeBox } from "../styles/global";
+import { Container, QRCodeBox } from "@styles/global";
 
-import { api } from "../services/api";
+import { api } from "@services/api";
 
 interface IWhatsAppSession {
   WABrowserId: string;
