@@ -1,14 +1,13 @@
 import type { NextPage } from "next";
-import QRCode from "react-qr-code";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { useRouter } from "next/router";
 
-import { Load } from "@components/Load";
-
-import { Container, QRCodeBox } from "@styles/global";
+import { Container } from "@styles/global";
 
 import { api } from "@services/api";
+
+import { QrCode } from "@components/QrCode";
 
 interface IWhatsAppSession {
   WABrowserId: string;
@@ -18,22 +17,11 @@ interface IWhatsAppSession {
 }
 
 const Home: NextPage = () => {
-  const [qrCodeSession, setQrCodeSession] = useState<string | undefined>();
   const [session, setSession] = useState<IWhatsAppSession | undefined>();
 
   const router = useRouter();
 
   useEffect(() => {
-    const getQRCode = async () => {
-      try {
-        const response = await api.get("qrcode");
-        const { qrCode } = response.data;
-        setQrCodeSession(qrCode);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
     const checkWhatsappSession = async (session: IWhatsAppSession) => {
       try {
         await api.post("session", session);
@@ -49,11 +37,11 @@ const Home: NextPage = () => {
 
     const session = localStorage.getItem("@ws-sender:session");
 
-    if(session) {
-      checkWhatsappSession(JSON.parse(session));
-    } else {
-      getQRCode();
+    if (!session) {
+      return;
     }
+
+    checkWhatsappSession(JSON.parse(session));
   }, []);
 
   useEffect(() => {
@@ -62,21 +50,16 @@ const Home: NextPage = () => {
     socket.on("new_connection", (session: IWhatsAppSession) => {
       const sessionString = JSON.stringify(session);
       localStorage.setItem("@ws-sender:session", sessionString);
-      router.push("/dashboard");
+      router.push("/dashboard")
     });
   }, []);
 
   return (
     <Container>
-      { session && <h1>AUTENTICADO</h1> }
-
-      {qrCodeSession && !session ? (
-        <QRCodeBox>
-          <QRCode value={qrCodeSession} />
-        </QRCodeBox>
-      ) : (
-        <Load size={32} />
-      )}
+      {!session
+        ? <QrCode />
+        : <h1>Autenticado!</h1>
+      }
     </Container>
   )
 }
