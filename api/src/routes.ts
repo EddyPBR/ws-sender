@@ -4,6 +4,7 @@ import { celebrate, Joi } from "celebrate";
 import { SendWhatsappMessageController } from "@src/controllers/SendWhatsappMessageController";
 import { CreateContactController } from "@src/controllers/CreateContactController";
 import { CreateQRCodeController } from "@src/controllers/CreateQRCodeController";
+import { SetWhatsappSessionController } from "@src/controllers/SetWhatsappSessionController";
 
 const routes = Router();
 
@@ -22,5 +23,14 @@ routes.post("/contact", celebrate({
 }), new CreateContactController().handle);
 
 routes.get("/qrcode", new CreateQRCodeController().handle);
+
+routes.post("/session", celebrate({
+	body: {
+		WABrowserId: Joi.string().required(),
+		WASecretBundle: Joi.string().required(),
+		WAToken1: Joi.string().required(),
+		WAToken2: Joi.string().required()
+	}
+}), new SetWhatsappSessionController().handle);
 
 export { routes };
