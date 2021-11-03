@@ -4,9 +4,10 @@ import { Client, ClientSession } from "whatsapp-web.js";
 class WhatsAppClient {
 	protected qrCode: string | undefined;
 	protected session: ClientSession | undefined;
+	protected client: Client;
 
-	create(session?: ClientSession) {
-		const client = new Client({
+	constructor() {
+		this.client = new Client({
 			session: this.getSession(),
 			authTimeoutMs: 10000,
 			restartOnAuthFail: true,
@@ -14,20 +15,18 @@ class WhatsAppClient {
 			takeoverTimeoutMs: 10000,
 		});
 
-		client.on("qr", qr => {
+		this.client.on("qr", qr => {
 			this.setQRCode(qr);
 		});
 
-		client.on("authenticated", (session) => {
+		this.client.on("authenticated", (session) => {
 			this.setSession(session);
 			io.emit("new_connection", session);
 		});
 
-		client.on("ready", () => {
+		this.client.on("ready", () => {
 			console.log("Client is ready!");
 		});
-
-		return client;
 	}
 
 	getSession() {
@@ -44,6 +43,14 @@ class WhatsAppClient {
 
 	setQRCode(qrCode: string) {
 		this.qrCode = qrCode;
+	}
+
+	getClient() {
+		return this.client;
+	}
+
+	setClient(client: Client) {
+		this.client = client;
 	}
 }
 

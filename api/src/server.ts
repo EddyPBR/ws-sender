@@ -4,13 +4,8 @@ import { serverHttp } from "@src/app";
 
 import { whatsapp } from "@src/lib/whatsapp";
 
-serverHttp.listen(process.env.PORT, () => {
+serverHttp.listen(process.env.PORT, async () => {
 	console.log("Server listen on Port:", process.env.PORT);
 
-	whatsapp
-		.create()
-		.initialize()
-		.then((response) => {
-			console.log(response)
-		});
+	await whatsapp.getClient().initialize();
 });
