@@ -1,13 +1,14 @@
 import fs from "fs";
 import path from "path";
 import qrcode from "qrcode-terminal";
+import { io } from "../app";
 import { Client } from "whatsapp-web.js";
 
 interface ISessionWhatsapp {
-  WABrowserId: string;
-  WASecretBundle: string;
-  WAToken1: string;
-  WAToken2: string;
+	WABrowserId: string;
+	WASecretBundle: string;
+	WAToken1: string;
+	WAToken2: string;
 }
 
 let QRCode: string | undefined;
@@ -29,7 +30,8 @@ client.on("qr", qr => {
 });
 
 client.on("authenticated", (session) => {
-	console.log(session)
+	io.emit("new_connection", session);
+
 	if (!fs.existsSync(SESSION_FILE_PATH)) {
 		fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
 			console.log(err ? "Failed to create json" : "create token json file");
