@@ -6,7 +6,7 @@ interface ICreateUserRequest {
   password: string;
 }
 
-class CreateContactController {
+class CreateUserController {
   async handle(request: Request, response: Response) {
     const { email, password }: ICreateUserRequest = request.body;
 
@@ -20,4 +20,4 @@ class CreateContactController {
   }
 }
 
-export { CreateContactController };
+export { CreateUserController };
