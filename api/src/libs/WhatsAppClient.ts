@@ -1,4 +1,4 @@
-import { io } from "../app";
+import { io } from "@src/app";
 import { Client, ClientSession } from "whatsapp-web.js";
 
 class WhatsAppClient {

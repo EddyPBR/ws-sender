@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateContactService } from "@src/services/CreateContactService";
+import { CreateContactService } from "@services/CreateContactService";
 
 interface ICreateContactRequestBody {
   name: string;

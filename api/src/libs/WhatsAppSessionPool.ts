@@ -1,4 +1,4 @@
-import { WhatsAppSession } from "@src/lib/WhatsAppSession";
+import { WhatsAppSession } from "@libs/WhatsAppSession";
 import type { ClientSession } from "whatsapp-web.js";
 
 class WhatsAppPool {

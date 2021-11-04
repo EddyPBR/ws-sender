@@ -1,5 +1,5 @@
-import { whatsapp } from "@src/lib/whatsapp";
-import { ApplicationException } from "@src/exceptions/ApplicationException";
+import { whatsapp } from "@libs/whatsapp";
+import { ApplicationException } from "@exceptions/ApplicationException";
 
 interface ISendMessageProps {
   phone: number;

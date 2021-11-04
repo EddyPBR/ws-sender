@@ -2,7 +2,7 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import "express-async-errors";
-import { ErrorHandling } from "@src/middlewares/ErrorHandling";
+import { ErrorHandling } from "@middlewares/ErrorHandling";
 import cors from "cors";
 import { routes } from "@src/routes";
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { whatsapp } from "@src/lib/whatsapp";
+import { whatsapp } from "@libs/whatsapp";
 
 class CreateQRCodeController {
   async handle(request: Request, response: Response) {

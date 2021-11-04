@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { sendMessage } from "@src/services/whatsapp/sendMessage";
+import { sendMessage } from "@services/whatsapp/sendMessage";
 
 interface IHandleRequestBody {
   phone: string;

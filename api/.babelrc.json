@@ -15,7 +15,14 @@
       "module-resolver",
       {
         "alias": {
-          "@src": "./src"
+          "@src": "./src",
+          "@controllers*": "./src/controllers",
+          "@database*": "./src/database",
+          "@exceptions*": "./src/exceptions",
+          "@libs*": "./src/libs",
+          "@middlewares*": "./src/middlewares",
+          "@services*": "./src/services",
+          "@utils*": "./src/utils"
         }
       }
     ]

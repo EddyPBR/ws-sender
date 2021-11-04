@@ -1,4 +1,4 @@
-import { WhatsAppClient } from "@src/lib/WhatsAppClient";
+import { WhatsAppClient } from "@libs/WhatsAppClient";
 import type { ClientSession } from "whatsapp-web.js";
 import { v4 as uuid } from "uuid";
 

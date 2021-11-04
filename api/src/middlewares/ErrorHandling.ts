@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { isCelebrateError } from "celebrate";
-import { ApplicationException } from "@src/exceptions/ApplicationException";
+import { ApplicationException } from "@exceptions/ApplicationException";
 
 export function ErrorHandling(
 	err: Error,

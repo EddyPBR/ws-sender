@@ -1,5 +1,5 @@
 import prismaClient from "@src/database/prisma";
-import { ApplicationException } from "@src/exceptions/ApplicationException";
+import { ApplicationException } from "@exceptions/ApplicationException";
 
 class CreateContactService {
   async execute(name: string, phone: string) {
