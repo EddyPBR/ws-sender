@@ -6,9 +6,9 @@ services:
     restart: always
     env_file: ./.env
     environment:
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
+      MYSQL_DATABASE: $DATABASE_NAME
     ports:
-      - 3306:3306
+      - $DATABASE_PORT:3306
     security_opt:
       - seccomp:unconfined
