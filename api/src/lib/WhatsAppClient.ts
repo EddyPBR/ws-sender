@@ -6,9 +6,9 @@ class WhatsAppClient {
 	protected session: ClientSession | undefined;
 	protected client: Client;
 
-	constructor() {
+	constructor(session?: ClientSession) {
 		this.client = new Client({
-			session: this.getSession(),
+			session: session || this.getSession(),
 			authTimeoutMs: 10000,
 			restartOnAuthFail: true,
 			takeoverOnConflict: true,
@@ -26,6 +26,11 @@ class WhatsAppClient {
 
 		this.client.on("ready", () => {
 			console.log("Client is ready!");
+		});
+
+		this.client.on("disconnected", () => {
+			this.setSession(undefined);
+			io.emit("disconnected");
 		});
 	}
 
@@ -54,6 +59,4 @@ class WhatsAppClient {
 	}
 }
 
-const whatsapp = new WhatsAppClient();
-
-export { whatsapp, WhatsAppClient };
+export { WhatsAppClient };
