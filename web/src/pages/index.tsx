@@ -1,67 +1,53 @@
 import type { NextPage } from "next";
-import { useState, useEffect } from "react";
-import io from "socket.io-client";
-import { useRouter } from "next/router";
+import Head from "next/head";
+import Image from "next/image";
 
-import { Container } from "@styles/global";
-
-import { api } from "@services/api";
-
-import { QrCode } from "@components/QrCode";
-
-interface IWhatsAppSession {
-  WABrowserId: string;
-  WASecretBundle: string;
-  WAToken1: string;
-  WAToken2: string;
-}
+import { Main, Columns, AccessSection } from "./styles";
 
 const Home: NextPage = () => {
-  const [session, setSession] = useState<IWhatsAppSession | undefined>();
-
-  const router = useRouter();
-
-  useEffect(() => {
-    const checkWhatsappSession = async (session: IWhatsAppSession) => {
-      try {
-        await api.post("session", session);
-
-        setSession(session);
-        router.push("/dashboard");
-      } catch (err) {
-        setSession(undefined);
-        localStorage.removeItem("@ws-sender:session");
-        console.log(err);
-      }
-    }
-
-    const session = localStorage.getItem("@ws-sender:session");
-
-    if (!session) {
-      return;
-    }
-
-    checkWhatsappSession(JSON.parse(session));
-  }, []);
-
-  useEffect(() => {
-    const socket = io(process.env.NEXT_PUBLIC_API_URL || "");
-
-    socket.on("new_connection", (session: IWhatsAppSession) => {
-      const sessionString = JSON.stringify(session);
-      localStorage.setItem("@ws-sender:session", sessionString);
-      router.push("/dashboard")
-    });
-  }, []);
-
   return (
-    <Container>
-      {!session
-        ? <QrCode />
-        : <h1>Autenticado!</h1>
-      }
-    </Container>
+    <>
+      <Head>
+        <title>Home | WAS</title>
+      </Head>
+
+      <div className="container">
+        <Columns>
+          <Main>
+            <h1>Bem-vindo ao WAS</h1>
+            <p>O envio de mensagens esquematizadas e em massa no WhatsApp deixou de ser um problema!</p>
+
+            <ul>
+              <li>Envio de mensagens em massa</li>
+              <li>Separe seus contatos por grupos</li>
+              <li>Tudo gratuítamente</li>
+            </ul>
+
+            <AccessSection>
+              <a href="#">
+                Faça login
+              </a>
+
+              <span>
+                Não possui conta?
+                <a href="#">
+                  cadastre-se
+                </a>
+              </span>
+            </AccessSection>
+          </Main>
+
+          <Image 
+            src="/assets/messages.svg" 
+            width="470" 
+            height="438" 
+            alt="Bem-vindo ao WAS" 
+            priority={true} 
+          />
+        </Columns>
+      </div>
+    </>
   )
 }
 
-export default Home
+export default Home;
