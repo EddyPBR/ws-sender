@@ -1,6 +1,16 @@
 import styled from "styled-components";
 import { darken } from "polished";
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  margin: 4rem 0;
+`;
+
 export const Box = styled.main`
   display: flex;
   flex-direction: column;
@@ -8,7 +18,8 @@ export const Box = styled.main`
   padding: 4.8rem 4rem;
   background-color: ${props => props.theme.colors.black1};
   border-radius: 1.2rem;
-  width: 37rem;
+  max-width: 37rem;
+  width: 100%;
   height: 39.5rem;
   margin-top: 4rem;
 
@@ -20,6 +31,18 @@ export const Box = styled.main`
   p {
     font-size: 1.6rem;
     margin-top: 0.8rem;
+  }
+
+  @media(max-width: 380px) {
+    padding: 4.8rem 3.2rem;
+
+    h1 {
+      font-size: 3.2rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
   }
 `;
 
@@ -62,6 +85,7 @@ export const OtherSection = styled.section`
 
   span {
     font-size: 1.6rem;
+    text-align: center;
 
     a {
       margin-left: 0.4rem;
