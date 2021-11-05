@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsShieldLock } from "react-icons/bs";
+import { Backlink } from "@components/Backlink";
 
 import { Content, Box, LoginForm, OtherSection } from "./styles";
 
@@ -12,6 +14,8 @@ const Login: NextPage = () => {
       <Head>
         <title>Login | WAS</title>
       </Head>
+
+      <Backlink href="/" />
 
       <div className="container">
         <Content>
@@ -45,16 +49,20 @@ const Login: NextPage = () => {
           <OtherSection>
             <span>
               Não possui conta?
-              <a href="#">
-                cadastre-se
-              </a>
+              <Link href="/registrar" passHref={true}>
+                <a>
+                  Cadastre-se
+                </a>
+              </Link>
             </span>
 
             <span>
               Esqueceu sua senha?
-              <a href="#">
-                recuperar senha
-              </a>
+              <Link href="/recuperar" passHref={true}>
+                <a>
+                  Recuperar senha
+                </a>
+              </Link>
             </span>
           </OtherSection>
         </Content>

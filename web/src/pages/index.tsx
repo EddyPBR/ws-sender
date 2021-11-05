@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Main, Columns, AccessSection } from "./styles";
 
@@ -24,15 +25,18 @@ const Home: NextPage = () => {
             </ul>
 
             <AccessSection>
-              <a href="#">
-                Faça login
-              </a>
-
+              <Link href="/login" passHref={true}>
+                <a>
+                  Faça login
+                </a>
+              </Link>
               <span>
                 Não possui conta?
-                <a href="#">
-                  cadastre-se
-                </a>
+                <Link href="/registrar" passHref={true}>
+                  <a>
+                    Cadastre-se
+                  </a>
+                </Link>
               </span>
             </AccessSection>
           </Main>
