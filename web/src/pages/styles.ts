@@ -7,6 +7,12 @@ export const Columns = styled.div`
 
   width: 100%;
   height: 100%;
+
+  @media(max-width: 1170px) {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 4rem 0;
+  }
 `;
 
 export const Main = styled.main`
@@ -14,14 +20,27 @@ export const Main = styled.main`
   flex-direction: column;
   max-width: 47rem;
 
+  @media(max-width: 1170px) {
+    margin: 0 auto;
+    margin-top: 8rem;
+  }
+
   h1 {
     font-size: 4.8rem;
     color: ${props => props.theme.colors.green2};
+
+    @media(max-width: 1170px) {
+      font-size: 3.6rem;
+    }
   }
 
   p {
     margin-top: 1.2rem;
     line-height: 2.8rem;
+
+    @media(max-width: 1170px) {
+      font-size: 1.6rem;
+    }
   }
 
   ul {
@@ -30,6 +49,10 @@ export const Main = styled.main`
     flex-direction: column;
     gap: 1.6rem;
     list-style: none;
+
+    @media(max-width: 1170px) {
+      font-size: 1.6rem;
+    }
 
     li:before {
       content: "";
@@ -40,6 +63,11 @@ export const Main = styled.main`
       display: inline-block;
       margin-bottom: 0.4rem;
       margin-right: 0.8rem;
+
+      @media(max-width: 1170px) {
+        width: 0.6rem;
+        height: 0.6rem;
+      }
     }
   }
 `;
@@ -49,8 +77,13 @@ export const AccessSection = styled.section`
   flex-direction: row;
   align-items: center;
   gap: 2.4rem;
-
   margin-top: 6.4rem;
+
+  @media(max-width: 380px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6rem;
+  }
 
   > a {
     padding: 1.4rem 2.8rem;
@@ -68,6 +101,10 @@ export const AccessSection = styled.section`
 
   span {
     font-size: 1.6rem;
+
+    @media(max-width: 1170px) {
+      font-size: 1.4rem;
+    }
 
     a {
       margin-left: 0.4rem;
