@@ -40,15 +40,15 @@ export const GlobalStyle = createGlobalStyle`
       font-size: 58.5939%;
     }
   }
-`;
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  width: 90vw;
-  max-width: 117rem;
-  margin: 0 auto;
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 90vw;
+    max-width: 117rem;
+    margin: 0 auto;
+  }
 `;
