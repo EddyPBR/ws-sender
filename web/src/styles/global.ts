@@ -51,4 +51,36 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 117rem;
     margin: 0 auto;
   }
+
+  .input {
+    width: 100%;
+    position: relative;
+    height: 4.2rem;
+
+    > svg {
+      position: absolute;
+      z-index: 10;
+      margin-left: 1.2rem;
+      top: 50%;
+      transform: translateY(-40%);
+      font-size: 2rem;
+    }
+
+    > input {
+      width: 100%;
+      position: absolute;
+      height: 4.8rem;
+      background: transparent;
+      padding-left: 4rem;
+      border: solid 0.1rem ${props => props.theme.colors.black3};
+      border-radius: 0.8rem;
+      color: ${props => props.theme.colors.gray1};
+      font-size: 1.6rem;
+      
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px ${props => props.theme.colors.black1} inset;
+        -webkit-text-fill-color: ${props => props.theme.colors.gray1} !important;
+      }
+    }
+  }
 `;
