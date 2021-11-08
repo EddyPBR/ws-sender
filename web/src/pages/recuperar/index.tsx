@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { AiOutlineMail } from "react-icons/ai";
 import { Backlink } from "@components/Backlink";
+import { SystemLinks } from "@components/SystemLinks";
 
-import { Content, Box, RecoverForm, OtherSection } from "./styles";
+import { Content, Box, RecoverForm } from "./styles";
 
 interface IRecoverPasswordFormValues {
   email: string;
@@ -44,12 +44,12 @@ const Registrar: NextPage = () => {
             <RecoverForm onSubmit={handleSubmit(handleRecoverPassword)}>
               <label htmlFor="email" className={`${errors?.email ? "input error" : "input"}`}>
                 <AiOutlineMail />
-                <input 
-                  id="email" 
-                  type="email" 
-                  placeholder="informe seu email" 
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="informe seu email"
                   title="email"
-                  {...register("email", {required: true, pattern: /^\S+@\S+$/i})}
+                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 />
               </label>
 
@@ -57,25 +57,10 @@ const Registrar: NextPage = () => {
             </RecoverForm>
           </Box>
 
-          <OtherSection>
-            <span>
-              Já possui conta?
-              <Link href="/login" passHref={true}>
-                <a>
-                  Fazer login
-                </a>
-              </Link>
-            </span>
-
-            <span>
-              Não possui conta?
-              <Link href="/registrar" passHref={true}>
-                <a>
-                  Cadastre-se
-                </a>
-              </Link>
-            </span>
-          </OtherSection>
+          <SystemLinks
+            login
+            register
+          />
         </Content>
       </div>
     </>

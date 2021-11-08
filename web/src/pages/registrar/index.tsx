@@ -6,8 +6,9 @@ import { useForm } from "react-hook-form";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsShieldLock } from "react-icons/bs";
 import { Backlink } from "@components/Backlink";
+import { SystemLinks } from "@components/SystemLinks";
 
-import { Content, Box, RegisterForm, OtherSection } from "./styles";
+import { Content, Box, RegisterForm } from "./styles";
 
 interface IRegisterFormValues {
   email: string;
@@ -86,25 +87,10 @@ const Registrar: NextPage = () => {
             </RegisterForm>
           </Box>
 
-          <OtherSection>
-            <span>
-              Já possui conta?
-              <Link href="/login" passHref={true}>
-                <a>
-                  Fazer login
-                </a>
-              </Link>
-            </span>
-
-            <span>
-              Esqueceu sua senha?
-              <Link href="/recuperar" passHref={true}>
-                <a>
-                  Recuperar senha
-                </a>
-              </Link>
-            </span>
-          </OtherSection>
+          <SystemLinks
+            login
+            recover
+          />
         </Content>
       </div>
     </>

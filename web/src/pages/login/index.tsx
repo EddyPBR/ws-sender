@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsShieldLock } from "react-icons/bs";
 import { Backlink } from "@components/Backlink";
+import { SystemLinks } from "@components/SystemLinks";
 
-import { Content, Box, LoginForm, OtherSection } from "./styles";
+import { Content, Box, LoginForm } from "./styles";
 
 interface ILoginFormValues {
   email: string;
@@ -70,25 +70,10 @@ const Login: NextPage = () => {
             </LoginForm>
           </Box>
 
-          <OtherSection>
-            <span>
-              Não possui conta?
-              <Link href="/registrar" passHref={true}>
-                <a>
-                  Cadastre-se
-                </a>
-              </Link>
-            </span>
-
-            <span>
-              Esqueceu sua senha?
-              <Link href="/recuperar" passHref={true}>
-                <a>
-                  Recuperar senha
-                </a>
-              </Link>
-            </span>
-          </OtherSection>
+          <SystemLinks
+            recover
+            register
+          />
         </Content>
       </div>
     </>
