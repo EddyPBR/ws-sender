@@ -83,4 +83,23 @@ export const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  .input.error {
+    > svg {
+      color: ${props => props.theme.colors.red};
+    }
+    
+    > input {
+      border: solid 0.2rem ${props => props.theme.colors.red};
+      outline-color: ${props => props.theme.colors.red};
+
+      &:focus {
+        outline: 0.1rem solid ${props => props.theme.colors.red} !important;
+      }
+
+      &:focus-visible {
+        outline-color: 0.1rem solid ${props => props.theme.colors.red} !important;
+      }
+    }
+  }
 `;
