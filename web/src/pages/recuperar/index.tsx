@@ -10,13 +10,12 @@ import { Content, Box, RecoverForm, OtherSection } from "./styles";
 
 interface IRecoverPasswordFormValues {
   email: string;
-  password: string;
 }
 
 const Registrar: NextPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  async function HandleRecoverPassword({ email }: IRecoverPasswordFormValues) {
+  async function handleRecoverPassword({ email }: IRecoverPasswordFormValues) {
     console.log(email);
   }
 
@@ -42,7 +41,7 @@ const Registrar: NextPage = () => {
             <h1>Recuperar senha</h1>
             <p>Vamos lhe enviar um email de recuperação!</p>
 
-            <RecoverForm onSubmit={handleSubmit(HandleRecoverPassword)}>
+            <RecoverForm onSubmit={handleSubmit(handleRecoverPassword)}>
               <label htmlFor="email" className={`${errors?.email ? "input error" : "input"}`}>
                 <AiOutlineMail />
                 <input 
