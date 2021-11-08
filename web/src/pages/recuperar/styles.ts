@@ -45,7 +45,7 @@ export const Box = styled.main`
   }
 `;
 
-export const LoginForm = styled.form`
+export const RecoverForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;

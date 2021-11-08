@@ -2,16 +2,28 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { AiOutlineMail } from "react-icons/ai";
 import { Backlink } from "@components/Backlink";
 
-import { Content, Box, LoginForm, OtherSection } from "./styles";
+import { Content, Box, RecoverForm, OtherSection } from "./styles";
+
+interface IRecoverPasswordFormValues {
+  email: string;
+  password: string;
+}
 
 const Registrar: NextPage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  async function HandleRecoverPassword({ email }: IRecoverPasswordFormValues) {
+    console.log(email);
+  }
+
   return (
     <>
       <Head>
-        <title>Recuperar | WAS</title>
+        <title>Recuperar senha | WAS</title>
       </Head>
 
       <Backlink href="/" />
@@ -27,17 +39,23 @@ const Registrar: NextPage = () => {
           />
 
           <Box>
-            <h1>Recuperar</h1>
-            <p>Informe seu email logo abaixo</p>
+            <h1>Recuperar senha</h1>
+            <p>Vamos lhe enviar um email de recuperação!</p>
 
-            <LoginForm>
-              <label htmlFor="email" className="input">
+            <RecoverForm onSubmit={handleSubmit(HandleRecoverPassword)}>
+              <label htmlFor="email" className={`${errors?.email ? "input error" : "input"}`}>
                 <AiOutlineMail />
-                <input id="email" type="email" placeholder="informe seu email" title="email" name="email" />
+                <input 
+                  id="email" 
+                  type="email" 
+                  placeholder="informe seu email" 
+                  title="email"
+                  {...register("email", {required: true, pattern: /^\S+@\S+$/i})}
+                />
               </label>
 
-              <button type="submit">Enviar</button>
-            </LoginForm>
+              <button type="submit">Recuperar</button>
+            </RecoverForm>
           </Box>
 
           <OtherSection>
