@@ -20,7 +20,7 @@ export const Box = styled.main`
   border-radius: 1.2rem;
   max-width: 37rem;
   width: 100%;
-  height: 39.5rem;
+  min-height: 39.5rem;
   margin-top: 4rem;
 
   h1 {
