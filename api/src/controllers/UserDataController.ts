@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { AuthenticateUserService } from "@services/AuthenticateUserService";
 import { GetUserDataService } from "@services/GetUserDataService";
 
 class UserDataController {
@@ -8,10 +7,9 @@ class UserDataController {
 
     const service = new GetUserDataService();
 
-    const { id, email } = await service.execute(user_id);
+    const { email } = await service.execute(user_id);
 
     return response.json({
-      id,
       email
     });
   }

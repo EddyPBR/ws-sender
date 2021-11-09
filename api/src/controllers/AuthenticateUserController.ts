@@ -12,9 +12,15 @@ class AuthenticateUserController {
 
     const service = new AuthenticateUserService();
 
-    const result = await service.execute(email, password);
+    const { token } = await service.execute(email, password);
 
-    return response.json(result);
+    return response.status(200).cookie("was@token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24
+    }).json({
+      message: "Successfully authenticated"
+    });
   }
 }
 

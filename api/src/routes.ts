@@ -5,6 +5,7 @@ import { EnsureAuthenticated } from "@middlewares/EnsureAuthenticated";
 
 import { CreateUserController } from "@controllers/CreateUserController";
 import { AuthenticateUserController } from "@controllers/AuthenticateUserController";
+import { UnauthenticateUserController } from "@controllers/UnauthenticateUserController";
 import { UserDataController } from "@controllers/UserDataController";
 
 const routes = Router();
@@ -24,5 +25,7 @@ routes.post("/authenticate", celebrate({
     password: Joi.string().required()
   }
 }), new AuthenticateUserController().handle);
+
+routes.delete("/unauthenticate", new UnauthenticateUserController().handle);
 
 export { routes };
