@@ -65,6 +65,12 @@ export const LogoutButton = styled.button`
       color: ${props => props.theme.colors.red};
     }
   }
+
+  &:disabled {
+    svg {
+      color: ${props => props.theme.colors.red};
+    }
+  }
 `;
 
 export const NavItem = styled.li<INavItemProps>`
