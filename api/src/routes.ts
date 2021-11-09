@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { celebrate, Joi } from "celebrate";
 
+import { EnsureAuthenticated } from "@middlewares/EnsureAuthenticated";
+
 import { CreateUserController } from "@controllers/CreateUserController";
 import { AuthenticateUserController } from "@controllers/AuthenticateUserController";
+import { UserDataController } from "@controllers/UserDataController";
 
 const routes = Router();
 
@@ -12,6 +15,8 @@ routes.post("/user", celebrate({
     password: Joi.string().min(6).max(18).required()
   }
 }), new CreateUserController().handle);
+
+routes.get("/user", EnsureAuthenticated, new UserDataController().handle);
 
 routes.post("/authenticate", celebrate({
   body: {
