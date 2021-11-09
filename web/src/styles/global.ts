@@ -52,6 +52,10 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
   }
 
+  .container.mini {
+    padding-left: 7rem;
+  }
+
   .input {
     width: 100%;
     position: relative;
