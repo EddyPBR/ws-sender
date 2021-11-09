@@ -26,6 +26,6 @@ routes.post("/authenticate", celebrate({
   }
 }), new AuthenticateUserController().handle);
 
-routes.delete("/unauthenticate", new UnauthenticateUserController().handle);
+routes.delete("/authenticate", new UnauthenticateUserController().handle);
 
 export { routes };
