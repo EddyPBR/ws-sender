@@ -70,5 +70,9 @@ export const LoginForm = styled.form`
     &:hover {
       background-color: ${props => darken(0.05, props.theme.colors.green1)};
     }
+
+    &:disabled {
+      background-color: ${props => darken(0.1, props.theme.colors.green1)};
+    }
   }
 `;
