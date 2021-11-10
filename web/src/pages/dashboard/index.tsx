@@ -1,13 +1,12 @@
 import type { NextPage, GetServerSideProps, NextPageContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
 import { parseCookies, destroyCookie } from "nookies";
 import { Navbar } from "@components/Navbar";
 import { QrCode } from "@components/QrCode";
 import { Load } from "@components/Load";
 import { api } from "@services/api";
+import { useWhatsApp } from "@hooks/useWhatsApp";
 
 import { Presentation, Tutorial } from "./styles";
 
@@ -19,34 +18,8 @@ interface IDashboardPageContext extends NextPageContext {
   user: IUserData;
 }
 
-interface ICreateWhatsAppSesssionResponse {
-  sessionId: string;
-}
-
 const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
-  const [session, setSession] = useState<string | null>(null);
-
-  const [isLoadingSession, setIsLoadingSession] = useState(false);
-
-  async function handleCreateWhatsAppSession() {
-    setIsLoadingSession(true);
-
-    try {
-      const { data: { sessionId } } = await api.post<ICreateWhatsAppSesssionResponse>("whatsapp/start");
-
-      localStorage.setItem("was@sessionId", sessionId);
-
-      setSession(sessionId);
-    } catch {
-      toast.error("Falha ao inicializar sessão do WhatsApp");
-      setIsLoadingSession(false);
-    }
-  }
-
-  useEffect(() => {
-    const sessionId = localStorage.getItem("was@sessionId");
-    sessionId ? setSession(sessionId) : null;
-  }, []);
+  const { sessionId, whatsAppSession, isLoadingSession, handleCreateWhatsAppSession } = useWhatsApp();
 
   return (
     <>
@@ -57,7 +30,7 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
       <Navbar onDashboard />
 
       <div className="container mini">
-        {(!session) && (
+        {(!sessionId) && (
           <Presentation>
             <article>
               <h1>
@@ -91,7 +64,7 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
           </Presentation>
         )}
 
-        {(session) && (
+        {(sessionId && !whatsAppSession) && (
           <Tutorial>
             <article>
               <p>
@@ -115,6 +88,10 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
             </article>
             <QrCode />
           </Tutorial>
+        )}
+
+        {(sessionId && whatsAppSession) && (
+          <h1>pronto para enviar mensagens</h1>
         )}
       </div>
     </>
