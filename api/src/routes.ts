@@ -8,6 +8,7 @@ import { AuthenticateUserController } from "@controllers/AuthenticateUserControl
 import { UnauthenticateUserController } from "@controllers/UnauthenticateUserController";
 import { UserDataController } from "@controllers/UserDataController";
 import { CreateNewWhatsAppSessionController } from "@controllers/CreateNewWhatsAppSessionController";
+import { GetSessionQRCodeController } from "@controllers/GetSessionQRCodeController";
 
 const routes = Router();
 
@@ -30,5 +31,10 @@ routes.post("/authenticate", celebrate({
 routes.delete("/authenticate", new UnauthenticateUserController().handle);
 
 routes.post("/whatsapp/start", EnsureAuthenticated, new CreateNewWhatsAppSessionController().handle);
+routes.post("/whatsapp/qrcode", EnsureAuthenticated, celebrate({
+  body: {
+    sessionId: Joi.string().required()
+  }
+}), new GetSessionQRCodeController().handle);
 
 export { routes };
