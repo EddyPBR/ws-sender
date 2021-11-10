@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { api } from "@services/api";
 import toast from "react-hot-toast";
+import io from "socket.io-client";
 
 interface IWhatsAppProvider {
   children: ReactNode;
@@ -9,6 +10,7 @@ interface IWhatsAppProvider {
 interface IWhatsAppContextData {
   sessionId: string | null;
   qrCode: string | null;
+  whatsAppSession: IWhatsAppSession | null;
   isLoadingSession: boolean;
   handleCreateWhatsAppSession: () => Promise<void>;
   handleGetQrCode: () => Promise<void>;
@@ -22,11 +24,19 @@ interface IGetQrCodeResponse {
   qrCode: string;
 }
 
+interface IWhatsAppSession {
+  WABrowserId: string,
+  WASecretBundle: string,
+  WAToken1: string,
+  WAToken2: string,
+}
+
 export const WhatsAppContext = createContext({} as IWhatsAppContextData);
 
 export function WhatsAppProvider({ children }: IWhatsAppProvider) {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [whatsAppSession, setWhatsAppSession] = useState<IWhatsAppSession | null>(null);
 
   const [isLoadingSession, setIsLoadingSession] = useState(false);
 
@@ -66,10 +76,39 @@ export function WhatsAppProvider({ children }: IWhatsAppProvider) {
     sessionId ? setSessionId(sessionId) : null;
   }, []);
 
+  useEffect(() => {
+    const whatsAppSessionJSON = localStorage.getItem("was@whatsappSession");
+
+    if(!whatsAppSessionJSON) {
+      return;
+    }
+
+    const whatsAppSession = JSON.parse(whatsAppSessionJSON) as IWhatsAppSession;
+    setWhatsAppSession(whatsAppSession);
+  }, []);
+
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_API_URL || "");
+
+    socket.on("new_connection", (session: IWhatsAppSession) => {
+      localStorage.setItem("was@whatsappSession", JSON.stringify(session));
+      setWhatsAppSession(session);
+    });
+    
+    socket.on("disconnected", () => {
+      localStorage.removeItem("was@whatsappSession");
+      localStorage.removeItem("was@sessionId");
+      setQrCode(null);
+      setSessionId(null);
+      setWhatsAppSession(null);
+    });
+  }, []);
+
   return (
     <WhatsAppContext.Provider value={{
       sessionId,
       qrCode,
+      whatsAppSession,
       isLoadingSession,
       handleCreateWhatsAppSession,
       handleGetQrCode
