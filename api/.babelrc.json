@@ -22,7 +22,8 @@
           "@libs*": "./src/libs",
           "@middlewares*": "./src/middlewares",
           "@services*": "./src/services",
-          "@utils*": "./src/utils"
+          "@utils*": "./src/utils",
+          "@configs*": "./src/configs"
         }
       }
     ]
