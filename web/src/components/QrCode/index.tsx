@@ -5,17 +5,31 @@ import { api } from "@services/api";
 
 import { Load } from "@components/Load";
 
+interface IGetQRCodeResponseData {
+  qrCode: string;
+}
+
 export function QrCode() {
   const [qrCodeSession, setQrCodeSession] = useState<string | undefined>();
 
   useEffect(() => {
     const getQRCode = async () => {
+      const sessionId = localStorage.getItem("was@sessionId");
+
+      if (!sessionId) {
+        setQrCodeSession(undefined);
+        return;
+      }
+
       try {
-        const response = await api.get("qrcode");
-        const { qrCode } = response.data;
+        const { data: { qrCode } } = await api.post<IGetQRCodeResponseData>("whatsapp/qrcode", {
+          sessionId
+        });
+
         setQrCodeSession(qrCode);
-      } catch (err) {
-        console.log(err);
+      } catch {
+        localStorage.removeItem("was@sessionId");
+        setQrCodeSession(undefined);
       }
     }
 
