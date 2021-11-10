@@ -7,6 +7,7 @@ import { CreateUserController } from "@controllers/CreateUserController";
 import { AuthenticateUserController } from "@controllers/AuthenticateUserController";
 import { UnauthenticateUserController } from "@controllers/UnauthenticateUserController";
 import { UserDataController } from "@controllers/UserDataController";
+import { CreateNewWhatsAppSessionController } from "@controllers/CreateNewWhatsAppSessionController";
 
 const routes = Router();
 
@@ -27,5 +28,7 @@ routes.post("/authenticate", celebrate({
 }), new AuthenticateUserController().handle);
 
 routes.delete("/authenticate", new UnauthenticateUserController().handle);
+
+routes.post("/whatsapp/start", EnsureAuthenticated, new CreateNewWhatsAppSessionController().handle);
 
 export { routes };
