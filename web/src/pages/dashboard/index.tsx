@@ -1,10 +1,12 @@
 import type { NextPage, GetServerSideProps, NextPageContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { parseCookies, destroyCookie } from "nookies";
 import { Navbar } from "@components/Navbar";
 import { QrCode } from "@components/QrCode";
+import { Load } from "@components/Load";
 import { api } from "@services/api";
 
 import { Presentation, Tutorial } from "./styles";
@@ -17,10 +19,34 @@ interface IDashboardPageContext extends NextPageContext {
   user: IUserData;
 }
 
-type DashboardStatusType = "not initialized" | "initialized" | "in session";
+interface ICreateWhatsAppSesssionResponse {
+  sessionId: string;
+}
 
 const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
-  const [status, setStatus] = useState<DashboardStatusType>("not initialized");
+  const [session, setSession] = useState<string | null>(null);
+
+  const [isLoadingSession, setIsLoadingSession] = useState(false);
+
+  async function handleCreateWhatsAppSession() {
+    setIsLoadingSession(true);
+
+    try {
+      const { data: { sessionId } } = await api.post<ICreateWhatsAppSesssionResponse>("whatsapp/start");
+
+      localStorage.setItem("was@sessionId", sessionId);
+
+      setSession(sessionId);
+    } catch {
+      toast.error("Falha ao inicializar sessão do WhatsApp");
+      setIsLoadingSession(false);
+    }
+  }
+
+  useEffect(() => {
+    const sessionId = localStorage.getItem("was@sessionId");
+    sessionId ? setSession(sessionId) : null;
+  }, []);
 
   return (
     <>
@@ -31,7 +57,7 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
       <Navbar onDashboard />
 
       <div className="container mini">
-        {(status === "not initialized") && (
+        {(!session) && (
           <Presentation>
             <article>
               <h1>
@@ -48,8 +74,8 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
                 WhatsApp.
               </p>
 
-              <button type="button" onClick={() => setStatus("initialized")}>
-                Iniciar
+              <button type="button" onClick={handleCreateWhatsAppSession} disabled={isLoadingSession}>
+                { isLoadingSession ? <Load /> : "Iniciar" }
               </button>
             </article>
 
@@ -64,7 +90,8 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
             </article>
           </Presentation>
         )}
-        {(status === "initialized") && (
+
+        {(session) && (
           <Tutorial>
             <article>
               <p>

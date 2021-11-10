@@ -33,7 +33,7 @@ export const Presentation = styled.section`
     }
 
     button {
-      padding: 1.4rem 2.8rem;
+      height: 4.8rem;
       border-radius: 0.4rem;
       background-color: ${props => props.theme.colors.green1};
       color: ${props => props.theme.colors.white};
@@ -45,6 +45,11 @@ export const Presentation = styled.section`
 
       &:hover {
         background-color: ${props => darken(0.05, props.theme.colors.green1)};
+      }
+
+      &:disabled {
+        background-color: ${props => darken(0.1, props.theme.colors.green1)};
+        cursor: not-allowed;
       }
     }
   }
