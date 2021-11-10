@@ -1,45 +1,25 @@
 import { QRCodeBox } from "./styles";
 import QRCode from "react-qr-code";
-import { useState, useEffect } from "react";
-import { api } from "@services/api";
+import { useEffect } from "react";
+import { useWhatsApp } from "@hooks/useWhatsApp";
 
 import { Load } from "@components/Load";
 
-interface IGetQRCodeResponseData {
-  qrCode: string;
-}
-
 export function QrCode() {
-  const [qrCodeSession, setQrCodeSession] = useState<string | undefined>();
+  const { qrCode, handleGetQrCode } = useWhatsApp();
 
   useEffect(() => {
-    const getQRCode = async () => {
-      const sessionId = localStorage.getItem("was@sessionId");
+    const LoadQrCode = setTimeout(() => {
+      handleGetQrCode();
+    }, 4000);
 
-      if (!sessionId) {
-        setQrCodeSession(undefined);
-        return;
-      }
-
-      try {
-        const { data: { qrCode } } = await api.post<IGetQRCodeResponseData>("whatsapp/qrcode", {
-          sessionId
-        });
-
-        setQrCodeSession(qrCode);
-      } catch {
-        localStorage.removeItem("was@sessionId");
-        setQrCodeSession(undefined);
-      }
-    }
-
-    setInterval(() => getQRCode(), 4000);
+    return () => clearTimeout(LoadQrCode);
   }, []);
 
   return (
     <QRCodeBox>
-      {qrCodeSession
-        ? <QRCode value={qrCodeSession} />
+      {qrCode
+        ? <QRCode value={qrCode} />
         : <Load size={32} />
       }
     </QRCodeBox>
