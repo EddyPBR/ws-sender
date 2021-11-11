@@ -4,6 +4,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import { Navbar } from "@components/Navbar";
 import { Presentation } from "@components/Presentation";
 import { Tutorial } from "@components/Tutorial";
+import { WhatsAppSession } from "@components/WhatsAppSession";
 
 import { api } from "@services/api";
 import { useWhatsApp } from "@hooks/useWhatsApp";
@@ -28,13 +29,17 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
       <Navbar onDashboard />
 
       <div className="container mini">
-        {(!sessionId) && ( <Presentation email={user.email} /> )}
+        {(!sessionId) &&
+          <Presentation email={user.email} />
+        }
 
-        {(sessionId && !whatsAppSession) && ( <Tutorial /> )}
+        {(sessionId && !whatsAppSession) &&
+          <Tutorial />
+        }
 
-        {(sessionId && whatsAppSession) && (
-          <h1>pronto para enviar mensagens</h1>
-        )}
+        {(sessionId && whatsAppSession) &&
+          <WhatsAppSession />
+        }
       </div>
     </>
   )
