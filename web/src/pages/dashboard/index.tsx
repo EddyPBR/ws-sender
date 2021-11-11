@@ -8,7 +8,9 @@ import { Load } from "@components/Load";
 import { api } from "@services/api";
 import { useWhatsApp } from "@hooks/useWhatsApp";
 
-import { Presentation, Tutorial } from "./styles";
+import { Presentation } from "@components/Presentation";
+
+import { Tutorial } from "./styles";
 
 interface IUserData {
   email: string;
@@ -30,39 +32,7 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
       <Navbar onDashboard />
 
       <div className="container mini">
-        {(!sessionId) && (
-          <Presentation>
-            <article>
-              <h1>
-                Olá,
-                <br />
-                <strong>
-                  {user?.email}
-                </strong>
-              </h1>
-
-              <p>
-                Seja bem vindo ao <b>WAS</b>, para iniciar basta clicar no botão iniciar 
-                conexão, assim vamos construir uma nova instância para o seu 
-                WhatsApp.
-              </p>
-
-              <button type="button" onClick={handleCreateWhatsAppSession} disabled={isLoadingSession}>
-                { isLoadingSession ? <Load /> : "Iniciar" }
-              </button>
-            </article>
-
-            <article>
-              <Image 
-                src="/assets/connect.svg" 
-                width="500"
-                height="384" 
-                alt="Inicie a instância e vamos começar!" 
-                priority={true} 
-              />
-            </article>
-          </Presentation>
-        )}
+        {(!sessionId) && ( <Presentation email={user.email} /> )}
 
         {(sessionId && !whatsAppSession) && (
           <Tutorial>
