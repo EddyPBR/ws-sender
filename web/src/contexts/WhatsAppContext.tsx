@@ -12,8 +12,10 @@ interface IWhatsAppContextData {
   qrCode: string | null;
   whatsAppSession: IWhatsAppSession | null;
   isLoadingSession: boolean;
+  isSendingMessage: boolean;
   handleCreateWhatsAppSession: () => Promise<void>;
   handleGetQrCode: () => Promise<void>;
+  handleSendMessage: () => Promise<void>;
 }
 
 interface ICreateWhatsAppSesssionResponse {
@@ -39,6 +41,7 @@ export function WhatsAppProvider({ children }: IWhatsAppProvider) {
   const [whatsAppSession, setWhatsAppSession] = useState<IWhatsAppSession | null>(null);
 
   const [isLoadingSession, setIsLoadingSession] = useState(false);
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
 
   async function handleCreateWhatsAppSession() {
     setIsLoadingSession(true);
@@ -68,6 +71,29 @@ export function WhatsAppProvider({ children }: IWhatsAppProvider) {
       localStorage.removeItem("was@sessionId");
       setQrCode(null);
       setSessionId(null);
+    }
+  }
+
+  async function handleSendMessage() {
+    if(!sessionId || !whatsAppSession) {
+      toast.error("Necessário inicar uma sessão!");
+      return;
+    }
+
+    setIsSendingMessage(true);
+
+    try {
+      api.post("/whatsapp/send", {
+        sessionId,
+        message: "Hello WAS",
+        phone: "5583987956936"
+      });
+
+      toast.success("Mensagem enviada!");
+    } catch (err) {
+      toast.error("Falha ao enviar mensagem");
+    } finally {
+      setIsSendingMessage(false);
     }
   }
 
@@ -110,8 +136,10 @@ export function WhatsAppProvider({ children }: IWhatsAppProvider) {
       qrCode,
       whatsAppSession,
       isLoadingSession,
+      isSendingMessage,
       handleCreateWhatsAppSession,
-      handleGetQrCode
+      handleGetQrCode,
+      handleSendMessage
     }}>
       {children}
     </WhatsAppContext.Provider>
