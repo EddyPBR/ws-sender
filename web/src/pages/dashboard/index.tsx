@@ -1,16 +1,12 @@
 import type { NextPage, GetServerSideProps, NextPageContext } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { parseCookies, destroyCookie } from "nookies";
 import { Navbar } from "@components/Navbar";
-import { QrCode } from "@components/QrCode";
-import { Load } from "@components/Load";
+import { Presentation } from "@components/Presentation";
+import { Tutorial } from "@components/Tutorial";
+
 import { api } from "@services/api";
 import { useWhatsApp } from "@hooks/useWhatsApp";
-
-import { Presentation } from "@components/Presentation";
-
-import { Tutorial } from "./styles";
 
 interface IUserData {
   email: string;
@@ -21,7 +17,7 @@ interface IDashboardPageContext extends NextPageContext {
 }
 
 const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
-  const { sessionId, whatsAppSession, isLoadingSession, handleCreateWhatsAppSession } = useWhatsApp();
+  const { sessionId, whatsAppSession } = useWhatsApp();
 
   return (
     <>
@@ -34,31 +30,7 @@ const Dashboard: NextPage<IDashboardPageContext> = ({ user }) => {
       <div className="container mini">
         {(!sessionId) && ( <Presentation email={user.email} /> )}
 
-        {(sessionId && !whatsAppSession) && (
-          <Tutorial>
-            <article>
-              <p>
-                Para utilizar o WAS precisamos que você conecte o seu WhatsApp, o 
-                procecimento é bem simples, abra o aplicativo em seu smartphone e 
-                siga o exemplo abaixo.
-              </p>
-              <Image
-                src="/assets/was-qrcode.png"
-                alt="Para conectar o WAS ao seu WhatsApp, abra o aplicativo, 
-                precione no ícone de três pontinhos (opções), depois selecione 
-                'aparelhos conectados' e finalmente pressione o botão 
-                'Conectar aparelho', faça o escaneamento do QR Code e pronto!"
-                width="470"
-                height="220"
-                priority={true}
-              />
-              <p>
-                Com tudo feito, basta escanear o QR Code que fornecemos.
-              </p>
-            </article>
-            <QrCode />
-          </Tutorial>
-        )}
+        {(sessionId && !whatsAppSession) && ( <Tutorial /> )}
 
         {(sessionId && whatsAppSession) && (
           <h1>pronto para enviar mensagens</h1>
