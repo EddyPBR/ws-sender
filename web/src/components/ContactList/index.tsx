@@ -1,9 +1,10 @@
 import { BsCheck } from "react-icons/bs";
-import { ContactBox, List, Item, CheckBox, Info } from "./styles";
+import { RiArrowDownSFill } from "react-icons/ri";
+import { ContainerBox, List, Item, CheckBox, Info, Select } from "./styles";
 
 export function ContactList() {
   return (
-    <ContactBox>
+    <ContainerBox>
       <List>
         <Item>
           <Info>
@@ -16,6 +17,28 @@ export function ContactList() {
           </CheckBox>
         </Item>
       </List>
-    </ContactBox>
+
+      <Select>
+        <select>
+          <option 
+            value="" 
+            selected 
+            disabled 
+            hidden
+          >
+            Listas pré-definidas
+          </option>
+          <option value="Todos">Todos</option>
+          <option value="Clientes">Clientes</option>
+          <option value="Pessoal interno">Pessoal interno</option>
+          <option value="Alunos">Alunos</option>
+        </select>
+
+        <RiArrowDownSFill size={24} />
+      </Select>
+
+      
+      
+    </ContainerBox>
   )
 }
