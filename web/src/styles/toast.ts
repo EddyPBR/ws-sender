@@ -20,5 +20,15 @@ export const toastStyles = {
       primary: theme.colors.white,
       secondary: theme.colors.red
     }
+  },
+  loading: {
+    style: {
+      background: theme.colors.blue,
+      color: theme.colors.white
+    },
+    iconTheme: {
+      primary: theme.colors.white,
+      secondary: theme.colors.blue
+    }
   }
 };
