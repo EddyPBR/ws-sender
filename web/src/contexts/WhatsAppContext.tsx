@@ -15,7 +15,7 @@ interface IWhatsAppContextData {
   isSendingMessage: boolean;
   handleCreateWhatsAppSession: () => Promise<void>;
   handleGetQrCode: () => Promise<void>;
-  handleSendMessage: () => Promise<void>;
+  handleSendMessage: (message: string, phone: string) => Promise<void>;
 }
 
 interface ICreateWhatsAppSesssionResponse {
@@ -74,24 +74,21 @@ export function WhatsAppProvider({ children }: IWhatsAppProvider) {
     }
   }
 
-  async function handleSendMessage() {
+  async function handleSendMessage(message: string, phone: string) {
     if(!sessionId || !whatsAppSession) {
       toast.error("Necessário inicar uma sessão!");
       return;
     }
 
     setIsSendingMessage(true);
-
     try {
       api.post("/whatsapp/send", {
         sessionId,
-        message: "Hello WAS",
-        phone: "5583987956936"
+        message,
+        phone
       });
-
-      toast.success("Mensagem enviada!");
     } catch (err) {
-      toast.error("Falha ao enviar mensagem");
+      toast.error(`Falha ao enviar mensagem para: ${phone}.`);
     } finally {
       setIsSendingMessage(false);
     }
